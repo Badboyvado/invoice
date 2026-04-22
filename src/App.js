@@ -118,7 +118,7 @@ const emptyForm = {
       {status.charAt(0).toUpperCase() + status.slice(1)}
     </span>
   );
-//  console.log(...currentStyle);
+
  }
 //  The InvoiceForm 
  function InvoiceForm({onClose, onSave}) {
