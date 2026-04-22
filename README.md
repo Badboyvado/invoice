@@ -1,70 +1,54 @@
-# Getting Started with Create React App
+Invoice Management App
+Complete Developer Documentation & README
+Stage 2 Frontend Track  ·  React  ·  LocalStorage
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+What Was Built
+This is a fully functional Invoice Management Application built entirely with React — a JavaScript library for building user interfaces. It runs entirely in the browser with no backend server required. All invoice data is saved in your browser's localStorage, which means the data persists even when you close and reopen the browser tab.
 
-In the project directory, you can run:
+Here is a summary of every feature that was implemented:
 
-### `npm start`
+Feature	What it does
+Create Invoice	Open a form, fill in client details, add line items, save as Draft or send as Pending
+View Invoices	See all invoices in a list with status badges, client names, due dates and totals
+Invoice Detail	Click any invoice to see its full breakdown including all line items and addresses
+Edit Invoice	Reopen the form pre-filled with existing data and save changes
+Delete Invoice	Remove an invoice after confirming in a popup modal
+Draft Saving	Save incomplete invoices as drafts to finish later
+Mark as Paid	Change a Pending invoice to Paid with one click
+Filter by Status	Show only Draft, Pending, or Paid invoices using a dropdown filter
+Light / Dark Mode	Toggle between a light and dark colour theme, saved across sessions
+Responsive Layout	Works on mobile phones (320px), tablets (768px) and desktops (1024px+)
+Form Validation	Prevents saving invalid forms — highlights errors with red borders and messages
+Keyboard & Accessibility	Fully navigable by keyboard, screen reader labels, ESC closes modals
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Architecture Explanation
+Architecture means how the code is structured — how the different pieces are organised and how they communicate with each other. Here is a plain-English explanation of every major piece.
 
-### `npm test`
+The Big Picture
+The entire app lives in one file: App.jsx. This was a deliberate choice to keep things simple for a first project. In a larger production app you would split these into separate files, but having everything in one place makes it much easier to understand what is happening.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The app is built from React components. A component is just a JavaScript function that returns HTML (called JSX). Components are like Lego bricks — you build small pieces and snap them together to make the full app.
 
-### `npm run build`
+State Management
+State is data that can change over time and causes the UI to update when it does. This app manages state in one central place — the App component — using React's useState hook.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+State Variable	What it stores
+invoices	The full array of all invoice objects
+view	Which screen is showing: 'list' or 'detail'
+selectedInvoice	The invoice the user clicked on to view
+formState	Whether the form drawer is open and which invoice is being edited (null = closed)
+theme	The current colour theme: 'light' or 'dark'
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The Form & Validation
+The invoice form uses controlled inputs — every keystroke updates a form state object, and the input's value is always driven from that state. This gives React full control over the form data at all times.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Validation runs when the user tries to submit. It checks:
+⦁	Required text fields (client name, description, all address fields) — must not be empty
+⦁	Email — must match a basic email pattern using a regular expression
+⦁	Items list — must contain at least one item
+⦁	Item quantities — must be positive numbers greater than zero
+⦁	Item prices — must be zero or positive numbers
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Errors are stored in an errors object keyed by field name. Each field checks if its own key is in the errors object and applies a red border + message if so. Submission is blocked until all errors are resolved.
