@@ -14,11 +14,13 @@ import   { useState, useEffect} from "react";
 // };
 
   {/**Function helper */  }
+
  function calcTotal(items) {
   return items.reduce((sum, item) => sum + item.quantity  * item.price, 0);
+  
 
  }
-//  Gentarte a random ID like "RT3080"
+//  Generate a random ID like "RT3080"
  function generateId() {
   const letters =  "ABCDEFGHIJKLMNOPQRSTUWXYZ";
   const l1 = letters[Math.floor(Math.random() * 26)];
@@ -31,41 +33,41 @@ import   { useState, useEffect} from "react";
   return new Date().toISOString().split("T")[0];
  }
 
-const SEED_INVOICES = [
-  { 
-    id: "RT3080", status:"paid", createdAt: "2021-08-18",
-    paymentTerms: 1, dueDate: "2021-08-19",
-    clientName:"Riliwan Taiwo", clientEmail: "rilitaiwo12@gmail.com",
-    clientAddress: {street: "106 Kendell Street", city: "Sharrington", postCode: "NR24 5WQ", country: "United Kingdom"},
-    senderAddress: { street: "19 Union Terrace", city: "London", postCode: "E1 3EZ", country: "United Kingdom"},
-    description: "Re: Branding Guidelines",
-    items: [{ name:  "Brand Guidelines", quantity: 1, price: 1800.90 }],
-  },
-  { 
-    id: "XM9141", status: "pending", createdAt: "2021-08-21", 
-    paymentTerms: 30, dueDate: "2021-09-20",
-    clientName:"Moji Taiwo", clientEmail: "moTaiwo20@gmail.com",
-    clientAddress: { street: "84 Church Way", city: "Bradford", postCode: "BD1 9PB", country: "United Kingdom"},
-    senderAddress: { street: "19 Union Terrace", city: "London", postCode: "E1 3EZ", country: "United Kingdom"},
-    description: "Fashion Design",
-    items: [
-      {name: "Wedding Design", quantity: 2,  price: 156},
-      {name: "Graduation Design", quantity: 4, price: 200}
-    ],
-  },
-  { 
-    id: "RG0314", status: "draft", createdAt: "2021-09-24",
-    paymentTerms: 7, dueDate: "2021-10-01",
-    clientName: "Faruq Taiwo", clientEmail: "faruqadekunle@gmail.com",
-    clientAddress: { street: "79 Dove Road", city: "Westhall", postCode: "IP19 3PF", country: "United Kingdom"},
-    senderAddress: { street: "19 Union Terrace", city: "London", postCode: "E1 3EZ", country: "United Kingdom"},
-    description: "Webtoon Redesign",
-    items: [{ name: "Webtoon Redesign", quantity: 1, price: 14002.33 }],
-  },
-];
+  const SEED_INVOICES = [
+    { 
+      id: "RT3080", status:"paid", createdAt: "2021-08-18",
+      paymentTerms: 1, dueDate: "2021-08-19",
+      clientName:"Jensen Huang", clientEmail: "rilitaiwo12@gmail.com",
+      clientAddress: {street: "106 Kendell Street", city: "Sharrington", postCode: "NR24 5WQ", country: "United Kingdom"},
+      senderAddress: { street: "19 Union Terrace", city: "London", postCode: "E1 3EZ", country: "United Kingdom"},
+      description: "Re: Branding Guidelines",
+      items: [{ name:  "Brand Guidelines", quantity: 1, price: 1800.90 }],
+    },
+    { 
+      id: "XM9141", status: "pending", createdAt: "2021-08-21", 
+      paymentTerms: 30, dueDate: "2021-09-20",
+      clientName:"Alex Grim", clientEmail: "moTaiwo20@gmail.com",
+      clientAddress: { street: "84 Church Way", city: "Bradford", postCode: "BD1 9PB", country: "United Kingdom"},
+      senderAddress: { street: "19 Union Terrace", city: "London", postCode: "E1 3EZ", country: "United Kingdom"},
+      description: "Fashion Design",
+      items: [
+        {name: "Wedding Design", quantity: 2,  price: 156},
+        {name: "Graduation Design", quantity: 4, price: 200}
+      ],
+    },
+    { 
+      id: "RG0314", status: "draft", createdAt: "2021-09-24",
+      paymentTerms: 7, dueDate: "2021-10-01",
+      clientName: "John Morrison", clientEmail: "faruqadekunle@gmail.com",
+      clientAddress: { street: "79 Dove Road", city: "Westhall", postCode: "IP19 3PF", country: "United Kingdom"},
+      senderAddress: { street: "19 Union Terrace", city: "London", postCode: "E1 3EZ", country: "United Kingdom"},
+      description: "Webtoon Redesign",
+      items: [{ name: "Webtoon Redesign", quantity: 1, price: 14002.33 }],
+    },
+  ];
 
 // Form State 
-const emptyForm = {
+ const emptyForm = ()=> ({
   senderStreet: "", senderCity: "", senderPostCode: "", senderCountry: "",
   clientName: "", clientEmail: "",
   clientStreet: "", clientCity: "", clientPostCode: "", clientCountry: "",
@@ -73,9 +75,9 @@ const emptyForm = {
   paymentTerms: 30,
   description: "",
   items: [{ name: "", quantity: 1, price: 0 }],
-};
+ });
 
-// Badges 
+ // Badges 
  function Badge({status}) {
   // Define colours for each status
   const styles = {
@@ -120,9 +122,31 @@ const emptyForm = {
   );
 
  }
+
 //  The InvoiceForm 
- function InvoiceForm({onClose, onSave}) {
-  const [form, setForm] = useState(emptyForm);
+ function InvoiceForm({onClose, onSave, invoice}) {
+  const [form, setForm] = useState(()=> {
+     if (invoice){
+    // pre-fill form  with existing invoice data
+      return {
+       senderStreet: invoice.senderAddress?.street || "",
+       senderCity: invoice.senderAddress?.city || "",
+       senderPostCode: invoice.senderAddress?.postCode || "",
+       senderCountry: invoice.senderAddress?.country || "",
+       clientName: invoice.clientName || "",
+       clientEmail: invoice.clientEmail || "",
+       clientStreet: invoice.clientAddress?.street || "",
+       clientCity: invoice.clientAddress?.city || "",
+       clientPostCode: invoice.clientAddress?.postCode || "",
+       clientCountry: invoice.clientAddress?.country || "",
+       createdAt: invoice.createdAt || todayStr(),
+       paymentTerms: invoice.paymentTerms ||  30,
+       description: invoice.description || "",
+       items: invoice.items || [{name: "", quantity: 1, price: 0}],
+      };
+    }
+  return emptyForm()
+  });
   const [errors, setErrors] = useState({});
 
   // Updates a single field in the form object
@@ -199,19 +223,25 @@ const emptyForm = {
     })),
   });
   const handleSaveDraft = () => {
-    onSave(buildInvoice("draft"));
+
+    const built = buildInvoice("draft");
+    if(invoice) built.id  = invoice.id;
+    onSave(built)
   };
   const handleSend = () => {
     const errs = validate();
     setErrors(errs);
     if (Object.keys(errs).length === 0) {
-      onSave(buildInvoice("pending"));
+      const built = buildInvoice(invoice ? invoice.status : "pending");
+      // Keep original ID if editing
+      if (invoice) built.id =  invoice.id;
+      onSave(built);
     }
   };
   return (
     <div className='form-overlay' onClick={onClose}>
       <div className='form-drawer' onClick={e  => e.stopPropagation()}>
-        <h2>New Invoice</h2>
+        <h2>{invoice ? `Edit #${invoice.id}` : "New Invoice"}</h2>
         {/*Bill form  */}
         <p className='form-section-label'>Bill Form</p>
         <div className='form-field'>
@@ -390,6 +420,25 @@ const emptyForm = {
   );
 }
 //  Filter
+ function DeleteModal({invoiceId, onConfirm, onCancel}) {
+  return (
+    <div className='modal-overlay'>
+      <div className='modal'>
+        <h2>Confirm Deletion</h2>
+        <p>
+          Are you sure you want to delete invoice #{invoiceId}?
+          This action cannot be undone.
+        </p>
+        <div className='modal-actions'>
+          <button className='btn btn-ghost' onClick={onCancel}>
+            Cancel
+          </button>
+          <button className='btn btn-danger' onClick={onConfirm}>Delete</button>
+        </div>
+      </div>
+    </div>
+  )
+ }
  function  FilterDropdown({ selectedFilters, onToggle, isOpen, onToggleOpen}) {
   const statuses = ["draft", "pending", "paid"];
 
@@ -441,7 +490,7 @@ function InvoiceCard({id, clientName, status, dueDate, onClick, amount})  {
 }
 // A separate component just for  the detail screens
 // Invoice Detail
- function InvoiceDetail ({ invoice, onBack}) {
+ function InvoiceDetail ({ invoice, onBack, onEdit, onDelete, onMarkPaid}) {
   const total = calcTotal(invoice.items);
 
   return (
@@ -452,6 +501,13 @@ function InvoiceCard({id, clientName, status, dueDate, onClick, amount})  {
           <div style={{ display: 'flex', alignItems: "center", gap: "16px"}}>
             <span style={{fontSize: "12px", color: "#888EB0"}}>Status</span>
             <Badge status={invoice.status}/>
+          </div>
+          <div className='detail-actions'>
+            <button className='btn btn-ghost' onClick={onEdit}>Edit</button>
+            <button className='btn btn-danger' onClick={onDelete}>Delete</button>
+            {invoice.status  === "pending" && (
+              <button className='btn btn-primary' onClick={onMarkPaid}>Mark as Paid</button>
+            )}
           </div>
         </div>
         
@@ -503,7 +559,13 @@ function InvoiceCard({id, clientName, status, dueDate, onClick, amount})  {
 
 //  APP
 function App() {
-  const [invoices, setInvoices] = useState(SEED_INVOICES);
+  const [invoices, setInvoices] = useState(()=> {
+    try {
+      const saved = localStorage.getItem("invoice-app-data");
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return  SEED_INVOICES;
+  });
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [view, setView] =  useState("list");
   const [theme, setTheme] =  useState(() => {
@@ -512,6 +574,48 @@ function App() {
   const [selectedFilters, setSelectedFilters] = useState(["draft", "pending", "paid"]);
   const [filterOpen,  setFilterOpen] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [editingInvoice,  setEditingInvoice] =  useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [invoiceToDelete, setInvoiceToDelete] = useState(null);
+
+
+  // Handler functions 
+
+  // Open edit form with existing invoice
+  const handleEdit = (invoice) => {
+    setEditingInvoice(invoice)
+  };
+
+  // Close edit form
+  const handleCloseEdit = ()=> {
+    setEditingInvoice(null);
+  };
+
+  // Save edited invoice - replace existing one in array
+  const handleSaveEdit = (updatedInvoice) =>  {
+    setInvoices(prev => prev.map(inv => inv.id  === updatedInvoice.id  ?  updatedInvoice : inv));
+    setSelectedInvoice(updatedInvoice);
+    setEditingInvoice(null);
+  };
+  // Open delete modal
+  const handleDeleteClick = (invoice) => {
+    setInvoiceToDelete(invoice);
+    setShowDeleteModal(true);
+  };
+  // Confirm delete- remove from array and go back to list 
+  const handleConfirmDelete = ()=> {
+    setInvoices(prev => prev.filter(inv => inv.id !==  invoiceToDelete.id));
+    setShowDeleteModal(false);
+    setInvoiceToDelete(null);
+    setSelectedInvoice(null);
+    setView("list");
+  };
+
+  // Mark invoice as paid
+  const handleMarkPaid = (invoice) => {
+    setInvoices(prev => prev.map(inv => inv.id  === invoice.id ? {...inv, status: "paid"} : inv));
+    setSelectedInvoice({...invoice, status: "paid"});
+  };
  
   // When a card is clicked, save  the invoice AND switch view
   const handleSelectInvoice= (invoice) => {
@@ -529,6 +633,11 @@ function App() {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("Invoice-theme", theme);
   }, [theme]);
+  // Save invoices  toLocalStorage whenever array change
+  useEffect(()=> {
+    localStorage.setItem("invoice-app-data", JSON.stringify(invoices));
+  }, [invoices]);
+   
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light")
@@ -622,13 +731,27 @@ function App() {
           <InvoiceDetail
             invoice={selectedInvoice}
             onBack={handleBack}
+            onEdit={()=> handleEdit(selectedInvoice)}
+            onDelete={()=> handleDeleteClick(selectedInvoice)}
+            onMarkPaid={()=> handleMarkPaid(selectedInvoice)}
           />
           )}
 
-           {showForm && (
-            <InvoiceForm 
-            onClose={() => setShowForm(false)}
-            onSave={handleSaveInvoice}
+           {(showForm || editingInvoice)&& (
+            <InvoiceForm
+            invoice={editingInvoice}
+            onClose={editingInvoice ? handleCloseEdit : () => setShowForm(false)}
+            onSave={editingInvoice  ?  handleSaveEdit : handleSaveInvoice}
+            />
+          )}
+          {showDeleteModal  && invoiceToDelete  && (
+            <DeleteModal 
+              invoiceId={invoiceToDelete.id}
+              onConfirm={handleConfirmDelete}
+              onCancel={()=> {
+                setShowDeleteModal(false);
+                setInvoiceToDelete(null);
+              }}
             />
           )}
           </div>
