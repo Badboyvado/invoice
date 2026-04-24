@@ -13,7 +13,7 @@ import   { useState, useEffect} from "react";
 //   )
 // };
 
-  {/**Function helper */  }
+/*Function helper */  
 
  function calcTotal(items) {
   return items.reduce((sum, item) => sum + item.quantity  * item.price, 0);
