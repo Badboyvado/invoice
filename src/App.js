@@ -90,8 +90,8 @@ import   { useState, useEffect} from "react";
       color: "#FF8F00",
     },
     draft: {
-      background:"rgba(55, 59, 83, 0.1)",
-      color: "#373B53",
+      background: "rgba(55, 59, 83, 0.1)", //"rgba(55, 59, 83, 0.1)",
+      color:   "#373B53",  // #c539bcb5
     },
   };
   // Pick the right style based on the status prop 
@@ -172,9 +172,11 @@ import   { useState, useEffect} from "react";
   const removeItem =  (index) => {
     setForm(prev => ({
       ...prev,
-      items: prev.items.filter((_, i) => i !==  index)
+      items: prev.items.filter(( _, i) => i !==  index)
     }));
   };
+
+  //Continue from validation 
 
   //Validation
   const validate = () => {
@@ -674,6 +676,24 @@ function App() {
         
           </div>
         </nav>
+        <nav className='sidebar'>
+          <div className='sidebar-logo'>
+            <div className='logo-icon'>
+              <svg width="28" height="26" viewBox='0 0 28 26' fill='none'>
+                <path d='M0 20L8 4l8 16H0z' fill='white'/>
+                <path d="M12 26L20 10l8 16H12z" fill='white' fillOpacity="0.5"/>
+              </svg>
+            </div>
+          </div>
+          {/* bOTTOM CONTROLS */}
+          <div className='sidebar-bottom'>
+            <button className='btn-icon' onClick={toggleTheme} aria-label='Toggle theme'>
+              {theme === "light" ? "🌙" : "☀️"}
+            </button>
+            <div className='sidebar-divider'/>
+            <div className='sidebar-avatar'>RT</div>
+          </div>
+        </nav>
 
         <div className='main-content'>  
         {/* this closing tags are might to be under dont forget  */}
@@ -686,12 +706,17 @@ function App() {
                 <h2>Invoices</h2>
                 <p>There are {filteredInvoices.length} total invoices</p>
               </div>
-              <FilterDropdown
-                 selectedFilters={selectedFilters}
-                 onToggle={toggleFilter}
-                 isOpen={filterOpen}
-                 onToggleOpen={()=>setFilterOpen(o => !o)}
-                 />
+              <div style={{display: "flex", alignItems: "center", gap: "16px"}}>
+                <FilterDropdown
+                   selectedFilters={selectedFilters}
+                  onToggle={toggleFilter}
+                  isOpen={filterOpen}
+                  onToggleOpen={()=>setFilterOpen(o => !o)}
+                />
+                <button className='btn btn-primary' onClick={()=> setShowForm(true)}>
+                  + New Invoice
+                </button>
+              </div>
             </div>
             
             {filteredInvoices.map((invoice) => (

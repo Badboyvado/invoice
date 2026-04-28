@@ -52,3 +52,14 @@ Validation runs when the user tries to submit. It checks:
 ⦁	Item prices — must be zero or positive numbers
 
 Errors are stored in an errors object keyed by field name. Each field checks if its own key is in the errors object and applies a red border + message if so. Submission is blocked until all errors are resolved.
+
+localStorage vs a Real Backend
+Decision: localStorage for data persistence instead of a Node/Express or Next.js API
+Trade-off: Zero setup cost, but data is per-device, per-browser, and limited to ~5MB.
+
+localStorage was chosen because it requires no server, no database setup, no environment variables, and no deployment configuration. The app is fully self-contained and works offline. The trade-offs are:
+⦁	Data does not sync across devices or browsers
+⦁	Clearing browser storage wipes all invoices
+⦁	Cannot be used by multiple users simultaneously
+⦁	5MB storage limit (roughly thousands of invoices — not a real concern for this project)
+For a real product you would use a database (PostgreSQL, MongoDB) accessed via a REST API or GraphQL endpoint.
