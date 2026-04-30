@@ -11,6 +11,7 @@
     --border: #DFE3FA;
     --sidebar: #1E2139;
     --radius: 8px;
+    --draft-color: #373B53;
     
 }
 /* Dark mode overrides  */
@@ -21,6 +22,7 @@
         --muted: #DFE3FA;
         --border: #252945;
         --sidebar: #1E2139;
+        --draft-color: #DFE3FA;
     }
     [data-theme="dark"].invoice-card {
         box-shadow: none;
@@ -39,7 +41,7 @@ body {
 .app-layout {
     display: flex;
     min-height: 100vh;
-    padding-left: 103px;
+    padding-left: 80px;
 }
 
 .main-content {
@@ -74,7 +76,7 @@ body {
   position: fixed;
   left: 0;
   top: 0;
-  width: 103px;
+  width: 80px;
   height: 100vh;
   background: var(--sidebar);
   border-radius: 0 20px 20px 0;
@@ -87,7 +89,7 @@ body {
 }
 .sidebar-logo {
   width: 100%;
-  backgroung: var(--purple);
+  background: var(--purple);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,7 +121,7 @@ body {
  .sidebar-divider {
   width: 100%;
   height: 1px;
-  backgground: #494E6E;
+  background: #494E6E;
  }
  .btn-icon {
   background: none;

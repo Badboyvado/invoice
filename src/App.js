@@ -90,8 +90,8 @@ import   { useState, useEffect} from "react";
       color: "#FF8F00",
     },
     draft: {
-      background: "rgba(55, 59, 83, 0.1)", //"rgba(55, 59, 83, 0.1)",
-      color:   "#373B53",  // #c539bcb5
+      background: "rgba(55, 59, 83, 0.1)", 
+      color:   "var(--draft-color)", 
     },
   };
   // Pick the right style based on the status prop 
@@ -664,18 +664,6 @@ function App() {
   return (
     <div className='app-layout'>
       <div style={{width: '100%'}}>
-        <nav className='navBar'>
-          <h1>Invoice App</h1>
-          <div style={{display: "flex", gap: "16px", alignItems: "center"}}>
-          <button className='btn btn-ghost' onClick={toggleTheme}>
-            {theme === "light" ? "🌙 Dark" : "☀️ Light"}
-          </button>
-          <button className='btn btn-primary' onClick={() => setShowForm(true)}>
-            + New Invoice
-          </button>
-        
-          </div>
-        </nav>
         <nav className='sidebar'>
           <div className='sidebar-logo'>
             <div className='logo-icon'>
@@ -691,7 +679,7 @@ function App() {
               {theme === "light" ? "🌙" : "☀️"}
             </button>
             <div className='sidebar-divider'/>
-            <div className='sidebar-avatar'>RT</div>
+            <div className='sidebar-avatar'>JH</div>
           </div>
         </nav>
 
