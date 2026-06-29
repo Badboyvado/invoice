@@ -24,7 +24,7 @@
         --sidebar: #1E2139;
         --draft-color: #DFE3FA;
     }
-    [data-theme="dark"].invoice-card {
+    [data-theme="dark"] .invoice-card {
         box-shadow: none;
     }
 
@@ -41,7 +41,7 @@ body {
 .app-layout {
     display: flex;
     min-height: 100vh;
-    padding-left: 80px;
+    padding-left: 103px;
 }
 
 .main-content {
@@ -71,12 +71,12 @@ body {
     background: #252945;
     border-bottom: 1px solid #1E2139;
 }
-
+/* Sidebar */
 .sidebar {
   position: fixed;
   left: 0;
   top: 0;
-  width: 80px;
+  width: 103px;
   height: 100vh;
   background: var(--sidebar);
   border-radius: 0 20px 20px 0;
@@ -85,7 +85,7 @@ body {
   align-items: center;
   justify-content: space-between;
   z-index: 100;
-  overflow: hidden;
+ 
 }
 .sidebar-logo {
   width: 100%;
@@ -93,10 +93,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px 0;
+  padding: 28px 0;
   border-radius: 0 20px 20px 0;
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 /* The half-circle cutout at the bottom of the logo */
@@ -110,6 +111,12 @@ body {
   background: var(--purple-light);
   border-radius: 20px 0 0 0;
 }
+
+.sidebar-logo svg{
+  position: relative;
+  z-index: 1;
+}
+
  .sidebar-bottom {
   display: flex;
   flex-direction: column;
@@ -135,7 +142,8 @@ body {
   align-items: center;
   justify-content: center;
  }
- .btn-icon:hoover { color: white}
+ .btn-icon:hover { color: white}
+
  .sidebar-avatar {
   width: 40px;
   height: 40px;
@@ -317,6 +325,7 @@ body {
  [data-theme="dark"] .items-table {
     background: #252945;
  }
+
 
  /* Filter Dropdown */
   .filter-dropdown {

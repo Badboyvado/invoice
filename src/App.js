@@ -37,7 +37,7 @@ import   { useState, useEffect} from "react";
     { 
       id: "RT3080", status:"paid", createdAt: "2021-08-18",
       paymentTerms: 1, dueDate: "2021-08-19",
-      clientName:"Jensen Huang", clientEmail: "rilitaiwo12@gmail.com",
+      clientName:"Jensen Huang", clientEmail: "jensenhung@gmail.com",
       clientAddress: {street: "106 Kendell Street", city: "Sharrington", postCode: "NR24 5WQ", country: "United Kingdom"},
       senderAddress: { street: "19 Union Terrace", city: "London", postCode: "E1 3EZ", country: "United Kingdom"},
       description: "Re: Branding Guidelines",
@@ -46,7 +46,7 @@ import   { useState, useEffect} from "react";
     { 
       id: "XM9141", status: "pending", createdAt: "2021-08-21", 
       paymentTerms: 30, dueDate: "2021-09-20",
-      clientName:"Alex Grim", clientEmail: "moTaiwo20@gmail.com",
+      clientName:"Alex Grim", clientEmail: "alexgrim@gmail.com",
       clientAddress: { street: "84 Church Way", city: "Bradford", postCode: "BD1 9PB", country: "United Kingdom"},
       senderAddress: { street: "19 Union Terrace", city: "London", postCode: "E1 3EZ", country: "United Kingdom"},
       description: "Fashion Design",
@@ -58,7 +58,7 @@ import   { useState, useEffect} from "react";
     { 
       id: "RG0314", status: "draft", createdAt: "2021-09-24",
       paymentTerms: 7, dueDate: "2021-10-01",
-      clientName: "John Morrison", clientEmail: "faruqadekunle@gmail.com",
+      clientName: "John Morrison", clientEmail: "johnmorrison@gmail.com",
       clientAddress: { street: "79 Dove Road", city: "Westhall", postCode: "IP19 3PF", country: "United Kingdom"},
       senderAddress: { street: "19 Union Terrace", city: "London", postCode: "E1 3EZ", country: "United Kingdom"},
       description: "Webtoon Redesign",
@@ -665,6 +665,7 @@ function App() {
     <div className='app-layout'>
       <div style={{width: '100%'}}>
         <nav className='sidebar'>
+          {/* Logo top */}
           <div className='sidebar-logo'>
             <div className='logo-icon'>
               <svg width="28" height="26" viewBox='0 0 28 26' fill='none'>
@@ -697,9 +698,9 @@ function App() {
               <div style={{display: "flex", alignItems: "center", gap: "16px"}}>
                 <FilterDropdown
                    selectedFilters={selectedFilters}
-                  onToggle={toggleFilter}
-                  isOpen={filterOpen}
-                  onToggleOpen={()=>setFilterOpen(o => !o)}
+                   onToggle={toggleFilter}
+                   isOpen={filterOpen}
+                   onToggleOpen={()=>setFilterOpen(o => !o)}
                 />
                 <button className='btn btn-primary' onClick={()=> setShowForm(true)}>
                   + New Invoice
