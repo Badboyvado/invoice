@@ -3,8 +3,8 @@ import './App.css';
 import   { useState, useEffect} from "react";
 // counter component
 
-// function Counter() {
-//   const [count, setCount] = useState(0);
+// " BN\}
+// +?P)_"{}98p7y6ioxc v"State(0);
 //   return (
 //     <div>
 //       <p>You clicked {count} times</p>
