@@ -8,6 +8,14 @@ Complete Developer Documentation & README
 
 This is a fully functional Invoice Management Application built entirely with React — a JavaScript library for building user interfaces. It runs entirely in the browser with no backend server required. All invoice data is saved in your browser's localStorage, which means the data persists even when you close and reopen the browser tab. 
 
+# Live Demo
+ https://invoice-orpin-rho.vercel.app/
+
+# Perview
+<p align="center">
+[!\[alt text\](image.png)](https://github.com/user-attachments/assets/94dbede7-61c3-4db2-a384-e57170ce336f)
+</p>
+
 Here is a summary of every feature that was implemented: 
 
 
