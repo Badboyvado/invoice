@@ -1,10 +1,9 @@
 // import logo from './logo.svg';
 import './App.css';
 import   { useState, useEffect} from "react";
-// counter component
-
-// " BN\}
-// +?P)_"{}98p7y6ioxc v"State(0);
+// counter component (learning exercise)
+// function Counter(){
+// const [count, setCount] = useState(0);
 //   return (
 //     <div>
 //       <p>You clicked {count} times</p>
@@ -28,10 +27,12 @@ import   { useState, useEffect} from "react";
   const nums = String(Math.floor(Math.random() * 9000) +  1000);
   return `${l1}${l2}${nums}`;
  }
-//  Gets today's  date as "YYYY-MM=DD"
- function todayStr() {
-  return new Date().toISOString().split("T")[0];
- }
+ //adds days to a date string, returns a new date sttring
+  function addDays(dateStr, days){
+    const date = new Date(dateStr);
+    date.setDate(date.getDate() + days);
+    return date.toISOString().split("T")[0];
+  }
 
   const SEED_INVOICES = [
     { 
@@ -71,7 +72,7 @@ import   { useState, useEffect} from "react";
   senderStreet: "", senderCity: "", senderPostCode: "", senderCountry: "",
   clientName: "", clientEmail: "",
   clientStreet: "", clientCity: "", clientPostCode: "", clientCountry: "",
-  createdAt: todayStr(),
+  createdAt: addDays(),
   paymentTerms: 30,
   description: "",
   items: [{ name: "", quantity: 1, price: 0 }],
@@ -139,7 +140,7 @@ import   { useState, useEffect} from "react";
        clientCity: invoice.clientAddress?.city || "",
        clientPostCode: invoice.clientAddress?.postCode || "",
        clientCountry: invoice.clientAddress?.country || "",
-       createdAt: invoice.createdAt || todayStr(),
+       createdAt: invoice.createdAt || addDays(),
        paymentTerms: invoice.paymentTerms ||  30,
        description: invoice.description || "",
        items: invoice.items || [{name: "", quantity: 1, price: 0}],
@@ -162,21 +163,20 @@ import   { useState, useEffect} from "react";
         i  === index ? {...item, [field]: value} : item)
     }))
   };
+  // Add a blank  item row
   const addItem = () => {
     setForm(prev => ({
       ...prev,
       items: [...prev.items, {name: "", quantity: 1, price: 0}]
     }));
   };
-
+//  Remove an item row
   const removeItem =  (index) => {
     setForm(prev => ({
       ...prev,
       items: prev.items.filter(( _, i) => i !==  index)
     }));
   };
-
-  //Continue from validation 
 
   //Validation
   const validate = () => {
@@ -202,11 +202,7 @@ import   { useState, useEffect} from "react";
     status,
     createdAt: form.createdAt,
     paymentTerms: parseInt(form.paymentTerms),
-    dueDate: (() => {
-      const d = new Date(form.createdAt);
-      d.setDate(d.getDate() + parseInt(form.paymentTerms));
-      return d.toISOString().split("T")[0]; 
-    })(),
+    dueDate: addDays(form.createdAt, parseInt(form.paymentTerms)),
     clientName: form.clientName,
     clientEmail: form.clientEmail,
     clientAddress: {
@@ -275,9 +271,8 @@ import   { useState, useEffect} from "react";
         </div>
 
         {/* Bill To */}
-        <p className="form-section-label" style={{ marginTop: "32px" }}>
-          Bill To
-        </p>
+        <p className="form-section-label" >
+          Bill To u</p>
         <div className="form-field">
           <label>Client Name</label>
           <input value={form.clientName}
@@ -354,9 +349,8 @@ import   { useState, useEffect} from "react";
         </div>
 
         {/* Items */}
-        <p className="form-section-label" style={{ marginTop: "32px" }}>
-          Item List
-        </p>
+        <p className="form-section-label">
+          Item List </p>
         {errors.items &&
           <span className="error-msg">{errors.items}</span>}
 
@@ -441,7 +435,8 @@ import   { useState, useEffect} from "react";
     </div>
   )
  }
- function  FilterDropdown({ selectedFilters, onToggle, isOpen, onToggleOpen}) {
+
+ function FilterDropdown({ selectedFilters, onToggle, isOpen, onToggleOpen}) {
   const statuses = ["draft", "pending", "paid"];
 
   return (
@@ -721,23 +716,22 @@ function App() {
              ))}
 
              {filteredInvoices.length === 0 && (
-          <div style={{
-            textAlign: "center",
-            padding: "80px 24px",
-            color: "var(--muted)"
-          }}>
-            <p style={{fontSize: "20px", fontWeight: "700",
-              color: "var(--text)", marginBottom: "16px"}}>
-                Nothing here
-              </p>
-              <p style={{fontSize: "12px", lineHeight: "1.8"}}>
-                No invoices match the  selected filter.
-              </p>
-          </div>
-         )}
-
+              <div style={{
+                 textAlign: "center",
+                padding: "80px 24px",
+                color: "var(--muted)"
+              }}>
+                <p style={{fontSize: "20px", fontWeight: "700",
+                  color: "var(--text)", marginBottom: "16px"}}>
+                  Nothing here
+                </p>
+                <p style={{fontSize: "12px", lineHeight: "1.8"}}>
+                   No invoices match the  selected filter.
+                </p>
+              </div>
+               )}
           </div> 
-         )}
+       )}
 
         {/* Show the detail only is detail AND an invoice is selected */}
       

@@ -21,29 +21,29 @@ Here is a summary of every feature that was implemented:
 
 ## Feature 
     What it does 
-- *Create Invoice*
+- *Create Invoice*-
 	Open a form, fill in client details, add line items, save as Draft or send as Pending 
-- *View Invoices*
+- *View Invoices*-
 	See all invoices in a list with status badges, client names, due dates and totals 
-- *Invoice Detail*
+- *Invoice Detail*-
 	Click any invoice to see its full breakdown including all line items and addresses 
-- *Edit Invoice* 
+- *Edit Invoice* -
 	Reopen the form pre-filled with existing data and save changes 
-- *Delete Invoice *
+- *Delete Invoice*-
 	Remove an invoice after confirming in a popup modal 
-- *Draft Saving* 
+- *Draft Saving*-
 	Save incomplete invoices as drafts to finish later 
-- *Mark as Paid* 
+- *Mark as Paid*-
 	Change a Pending invoice to Paid with one click 
-- *Filter by Status* 
+- *Filter by Status*-
 	Show only Draft, Pending, or Paid invoices using a dropdown filter 
-- *Light / Dark Mode* 
+- *Light / Dark Mode*-
 	Toggle between a light and dark colour theme, saved across sessions 
-- *Responsive Layout *
+- *Responsive Layout*-
 	Works on mobile phones (320px), tablets (768px) and desktops (1024px+) 
-- *Form Validation* 
+- *Form Validation*-
 	Prevents saving invalid forms — highlights errors with red borders and messages 
-- *Keyboard & Accessibility* 
+- *Keyboard & Accessibility*-
 	Fully navigable by keyboard, screen reader labels, ESC closes modals 
 
  
@@ -170,15 +170,15 @@ This creates a dist/ folder containing your compiled, minified app ready for hos
 
 ## State Variable 
 	What it stores 
-- *invoices* 
+- *invoices*-
 	The full array of all invoice objects 
-- *view* 
+- *view*-
 	Which screen is showing: 'list' or 'detail' 
-- *selectedInvoice* 
+- *selectedInvoice*-
 	The invoice the user clicked on to view 
-- *formState* 
+- *formState*-
 	Whether the form drawer is open and which invoice is being edited (null = closed) 
-- *theme* 
+- *theme*-
 	The current colour theme: 'light' or 'dark' 
 
 ##  Data Persistence — localStorage 
@@ -308,7 +308,7 @@ For a real product you would use a database (PostgreSQL, MongoDB) accessed via a
  React Router is the standard library for handling navigation in React apps. It maps URL paths (like /invoices/RT3080) to specific components. Not using it means the browser's back button does not navigate between the list and detail views. For a production app this would be a significant usability problem, but for a task submission with a small number of views it keeps the code substantially simpler. 
 
 ## Inline Styles vs CSS Modules vs Styled Components 
- *Decision*: A single <style> tag with CSS custom properties injected into the component 
+ *Decision*: A single <style> tag with CSS custom    properties injected into the component.
  *Trade-off*: Fast to write and self-contained, but not how styles are typically organised in production. 
 
  In production React apps, styles are handled via CSS Modules (App.module.css), Tailwind CSS utility classes, or CSS-in-JS libraries like styled-components or Emotion. The approach used here — injecting a style string — works well for a self-contained artifact but would not scale to a large multi-file project. The benefit is that the entire visual design is visible in one place. 
@@ -321,20 +321,13 @@ For a real product you would use a database (PostgreSQL, MongoDB) accessed via a
 
 ## Element used 
 	Why it matters 
- <nav> 
-	Screen readers announce it as a navigation landmark, helping users jump to it directly 
- <main> 
-	Identifies the primary content area — users can skip to it bypassing the nav 
-<ul> and <li> 
-	Invoice cards are wrapped in a proper list so screen readers announce 'list of N items' 
-<button> 
-	All clickable controls use <button> (not <div> or <span>), giving them keyboard focus and Enter/Space activation for free 
-<label> 
-	Every form input has a <label> with a matching htmlFor attribute — clicking the label focuses the input 
-role='dialog' 
-	The form drawer and delete modal are marked as dialogs so screen readers announce them correctly 
-aria-modal='true' 
-	Tells screen readers the modal is the active region and content behind it is inert 
+ <nav>: Screen readers announce it as a navigation landmark, helping users jump to it directly.
+ <main>: Identifies the primary content area — users can skip to it bypassing the nav. 
+ <ul> and <li>: Invoice cards are wrapped in a proper list so screen readers announce 'list of N items' 
+ <button>: All clickable controls use <button> (not <div> or <span>), giving them keyboard focus and Enter/Space activation for free 
+ <label>: Every form input has a <label> with a matching htmlFor attribute — clicking the label focuses the input 
+ role='dialog': The form drawer and delete modal are marked as dialogs so screen readers announce them correctly 
+ aria-modal='true': Tells screen readers the modal is the active region and content behind it is inert(unmoving content).
 
 ## Keyboard Navigation 
 
@@ -393,32 +386,31 @@ When the delete confirmation modal is open, pressing Tab should cycle only throu
 
 # Improvements Beyond Requirements 
 
-The following features and design decisions go beyond the minimum requirements listed in the brief. 
+ The following features and design decisions go beyond the minimum requirements listed in the brief. 
+ 
+* Seed Data on First Load 
+   When a user opens the app for the very first time (empty localStorage), three realistic sample invoices are automatically loaded — one in each status (paid, pending, draft). This prevents a blank empty state on first impression and immediately demonstrates all three status types and their visual presentation. 
 
-##  Seed Data on First Load 
- When a user opens the app for the very first time (empty localStorage), three realistic sample invoices are automatically loaded — one in each status (paid, pending, draft). This prevents a blank empty state on first impression and immediately demonstrates all three status types and their visual presentation. 
+* Animated Drawer and Page Transitions 
+   The invoice form slides in from the left using a CSS keyframe animation (@keyframes slideIn). The invoice detail view fades in with a subtle upward translateY animation (@keyframes fadeIn). These micro-transitions make the app feel significantly more polished and help users understand spatial relationships — the form comes from the left, indicating it is a layer on top of the current view. 
 
-## Animated Drawer and Page Transitions 
- The invoice form slides in from the left using a CSS keyframe animation (@keyframes slideIn). The invoice detail view fades in with a subtle upward translateY animation (@keyframes fadeIn). These micro-transitions make the app feel significantly more polished and help users understand spatial relationships — the form comes from the left, indicating it is a layer on top of the current view. 
+* Auto-calculated Due Date 
+   The due date field is never shown in the form — it is automatically calculated from the Invoice Date and Payment Terms fields. When you select Net 7 days and a date of 1st January, the due date becomes 8th January. This reduces user error and keeps the form simpler. 
 
-## Auto-calculated Due Date 
-  The due date field is never shown in the form — it is automatically calculated from the Invoice Date and Payment Terms fields. When you select Net 7 days and a date of 1st January, the due date becomes 8th January. This reduces user error and keeps the form simpler. 
+* Persistent Theme Preference 
+   The light/dark theme preference is saved in localStorage so it persists across page reloads and browser sessions. Most implementations do not persist the theme — the user has to toggle it again every time they visit. 
 
-## Persistent Theme Preference 
+* Responsive Mobile Bottom Action Bar 
+   On mobile screens, the invoice action buttons (Edit, Delete, Mark as Paid) that appear in the detail view header on desktop are hidden and replaced with a sticky bottom bar that stays fixed at the bottom of the screen. This follows native mobile app patterns where actions are thumb-reachable at the bottom of the screen, rather than requiring the user to scroll to the top. 
 
-The light/dark theme preference is saved in localStorage so it persists across page reloads and browser sessions. Most implementations do not persist the theme — the user has to toggle it again every time they visit. 
+* Unique ID Generation 
+   Invoice IDs are generated in the format used by the Figma design: two random uppercase letters followed by four digits (e.g. RT3080, XM9141). This is cosmetically meaningful — it matches the design reference exactly rather than using UUID strings or incremental numbers. 
 
-## Responsive Mobile Bottom Action Bar 
- On mobile screens, the invoice action buttons (Edit, Delete, Mark as Paid) that appear in the detail view header on desktop are hidden and replaced with a sticky bottom bar that stays fixed at the bottom of the screen. This follows native mobile app patterns where actions are thumb-reachable at the bottom of the screen, rather than requiring the user to scroll to the top. 
+* Smart Form State for Edit vs Create 
+   The InvoiceForm component handles both creating new invoices and editing existing ones using the same component. When opened for editing, the entire form is pre-populated with the existing invoice's data. When saved, the component detects whether this is a new invoice (no matching ID in the array) or an update (existing ID) and handles the array mutation accordingly — either prepending a new invoice or replacing the existing one in place. 
 
-## Unique ID Generation 
- Invoice IDs are generated in the format used by the Figma design: two random uppercase letters followed by four digits (e.g. RT3080, XM9141). This is cosmetically meaningful — it matches the design reference exactly rather than using UUID strings or incremental numbers. 
-
-## Smart Form State for Edit vs Create 
- The InvoiceForm component handles both creating new invoices and editing existing ones using the same component. When opened for editing, the entire form is pre-populated with the existing invoice's data. When saved, the component detects whether this is a new invoice (no matching ID in the array) or an update (existing ID) and handles the array mutation accordingly — either prepending a new invoice or replacing the existing one in place. 
-
-## Status Badge Dot 
- Each status badge includes a coloured dot to the left of the label, implemented as a CSS ::before pseudo-element using currentColor. This means the dot is always the exact same colour as the badge text with zero additional HTML or inline styles. It also means if you change the badge text colour, the dot updates automatically. 
+* Status Badge Dot 
+   Each status badge includes a coloured dot to the left of the label, implemented as a CSS ::before pseudo-element using currentColor. This means the dot is always the exact same colour as the badge text with zero additional HTML or inline styles. It also means if you change the badge text colour, the dot updates automatically. 
 
 ## Suggested Future Improvements 
 
